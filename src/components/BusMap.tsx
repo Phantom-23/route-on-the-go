@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
 import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { Card } from '@/components/ui/card';
 
 // Fix for default markers in react-leaflet
@@ -124,7 +125,8 @@ const BusMap: React.FC = () => {
       <MapContainer
         center={[40.7128, -74.0060]}
         zoom={12}
-        className="w-full h-full rounded-lg"
+        style={{ height: '100%', width: '100%' }}
+        className="rounded-lg"
         zoomControl={false}
       >
         <TileLayer
@@ -132,15 +134,15 @@ const BusMap: React.FC = () => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         
-        {/* Route line */}
         <Polyline 
           positions={routePath} 
-          color="hsl(213 94% 68%)" 
-          weight={4}
-          opacity={0.7}
+          pathOptions={{ 
+            color: '#4f46e5', 
+            weight: 4,
+            opacity: 0.7 
+          }}
         />
         
-        {/* Bus markers */}
         {buses.map((bus) => (
           <Marker
             key={bus.id}
@@ -152,10 +154,10 @@ const BusMap: React.FC = () => {
           >
             <Popup>
               <div className="p-2">
-                <h3 className="font-semibold text-foreground">{bus.name}</h3>
-                <p className="text-sm text-muted-foreground">{bus.route}</p>
+                <h3 className="font-semibold">{bus.name}</h3>
+                <p className="text-sm text-gray-600">{bus.route}</p>
                 <p className="text-sm">Next: {bus.nextStop}</p>
-                <p className="text-sm font-medium text-primary">ETA: {bus.estimatedArrival}</p>
+                <p className="text-sm font-medium text-blue-600">ETA: {bus.estimatedArrival}</p>
               </div>
             </Popup>
           </Marker>
